@@ -1,0 +1,11 @@
+com\groupdna\api\auth\AuthController.class
+com\groupdna\api\auth\AuthDtos$AuthResponse.class
+com\groupdna\api\auth\AuthDtos$ErrorResponse.class
+com\groupdna\api\HealthController.class
+com\groupdna\api\auth\AuthService.class
+com\groupdna\api\auth\AuthDtos$RegisterRequest.class
+com\groupdna\api\config\PasswordConfig.class
+com\groupdna\api\auth\AuthDtos$LoginRequest.class
+com\groupdna\api\auth\AuthDtos.class
+com\groupdna\api\auth\AuthService$UserRecord.class
+com\groupdna\api\GroupDnaApiApplication.class

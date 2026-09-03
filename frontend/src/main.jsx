@@ -21,10 +21,80 @@ function ArchetypeCard({ member }) {
   </article>;
 }
 
+function AuthScreen({ onEnter }) {
+  const [mode, setMode] = useState('login');
+  const [showPassword, setShowPassword] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  async function submit(event) {
+    event.preventDefault();
+    if (mode === 'register' && !form.name.trim()) {
+      setError('Tell us your name first.');
+      return;
+    }
+    if (!form.email.includes('@') || form.password.length < 6) {
+      setError('Use a valid email and a password with 6+ characters.');
+      return;
+    }
+    setBusy(true);
+    setError('');
+    try {
+      const response = await fetch(`http://localhost:8080/api/auth/${mode === 'login' ? 'login' : 'register'}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(mode === 'login' ? { email: form.email, password: form.password } : form),
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.message || payload.error || 'Authentication failed');
+      if (mode === 'register') {
+        setMode('login');
+        setForm({ name: '', email: form.email, password: '' });
+        setError('Account created successfully. Please sign in to continue.');
+      } else {
+        onEnter(payload);
+      }
+    } catch (requestError) {
+      const message = requestError instanceof TypeError && requestError.message.toLowerCase().includes('fetch')
+        ? 'Authentication server is offline. Start Spring Boot on port 8080, then try again.'
+        : requestError.message || 'Authentication failed. Please try again.';
+      setError(message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return <main className="auth-shell">
+    <section className="auth-story">
+      <div className="story-brand"><span className="brand-mark">✦</span><span>GROUPDNA</span></div>
+      <div className="story-copy"><p className="eyebrow">YOUR CHAT, DECODED</p><h1>See the people behind the messages.</h1><p>Turn your group’s everyday chaos into a beautiful, surprisingly accurate snapshot of how you connect.</p></div>
+      <div className="story-footer"><span>01 / INSIGHT</span><span>PRIVATE BY DESIGN</span></div>
+    </section>
+    <section className="auth-panel">
+      <div className="auth-heading"><p className="eyebrow">WELCOME BACK</p><h2>{mode === 'login' ? 'Sign in to your group' : 'Make your group count'}</h2><p>{mode === 'login' ? 'Your next little revelation is waiting.' : 'Create a space for your chat stories.'}</p></div>
+      <div className="auth-tabs"><button className={mode === 'login' ? 'active' : ''} type="button" onClick={() => { setMode('login'); setError(''); }}>Sign in</button><button className={mode === 'register' ? 'active' : ''} type="button" onClick={() => { setMode('register'); setError(''); }}>Register</button></div>
+      <form className="auth-form" onSubmit={submit}>
+        {mode === 'register' && <label>Name<input value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="Your name" autoComplete="name" /></label>}
+        <label>Email address<input type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} placeholder="you@example.com" autoComplete="email" required /></label>
+        <label>Password<div className="password-field"><input type={showPassword ? 'text' : 'password'} value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} placeholder="At least 6 characters" autoComplete={mode === 'login' ? 'current-password' : 'new-password'} required /><button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>{showPassword ? 'Hide' : 'Show'}</button></div></label>
+        {mode === 'login' && <div className="form-meta"><label className="check-label"><input type="checkbox" /> Remember me</label><button type="button" className="text-button">Forgot password?</button></div>}
+        {error && <p className="form-error" role="alert">{error}</p>}
+        <button className="auth-submit" type="submit" disabled={busy}>{busy ? 'Connecting...' : mode === 'login' ? 'Enter GroupDNA  →' : 'Create account  →'}</button>
+      </form>
+      <div className="auth-divider"><span>OR</span></div>
+      <button className="guest-button" type="button" onClick={onEnter}>Explore as guest</button>
+      <p className="auth-privacy">Your exported chat stays yours. GroupDNA stores derived statistics, never raw messages.</p>
+    </section>
+  </main>;
+}
+
 function App() {
   const fileInputRef = useRef(null);
   const [analysis, setAnalysis] = useState(null);
   const [status, setStatus] = useState('');
+  const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   async function analyzeFile(file) {
     if (!file) return;
@@ -52,9 +122,11 @@ function App() {
     }
   }
 
+  if (!authenticated) return <AuthScreen onEnter={(payload) => { setUser(payload); setAuthenticated(true); }} />;
+
   return (
     <main className="shell">
-      <p className="eyebrow">GROUPDNA / PRIVATE BETA</p>
+      <div className="app-bar"><p className="eyebrow">GROUPDNA / PRIVATE BETA</p><span className="signed-in">{user?.name || 'Guest'} <button type="button" onClick={() => { setAuthenticated(false); setUser(null); setAnalysis(null); }}>Sign out</button></span></div>
       <h1>Your group has a pulse.</h1>
       <p className="lede">Upload a WhatsApp export to decode the rhythm, energy, and roles inside your chat.</p>
       <section className="dropzone" aria-label="Upload WhatsApp export" onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); analyzeFile(event.dataTransfer.files[0]); }}>

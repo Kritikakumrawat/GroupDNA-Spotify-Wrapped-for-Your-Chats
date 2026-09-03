@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 __pycache__/
 .pytest_cache/
 .venv/
@@ -8,7 +7,6 @@ __pycache__/
 node_modules/
 dist/
 .tools/
-=======
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -99,4 +97,4 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
->>>>>>> origin/main
+backend/data/
