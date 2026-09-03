@@ -1,6 +1,6 @@
 # GroupDNA
 
-GroupDNA decodes WhatsApp group exports into communication patterns, mood trends, and playful member archetypes.
+GroupDNA is a privacy-first analytics platform that decodes WhatsApp group exports into communication patterns, mood trends, and playful member archetypes.
 
 ## Architecture
 
@@ -19,3 +19,7 @@ uvicorn services.ml.main:app --reload --port 8000
 ```
 
 The React app is started from `frontend/` with `npm install` and `npm run dev`.
+
+## Privacy
+
+Raw message text is processed in memory and never persisted. The database stores only aggregate counts, distributions, sentiment scores, and derived archetype features.
