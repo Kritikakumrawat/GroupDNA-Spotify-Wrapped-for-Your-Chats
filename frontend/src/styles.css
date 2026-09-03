@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root { color: #18221d; background: #e7eee5; font-family: 'Space Grotesk', sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+.shell { min-height: 100vh; padding: 9vw 10vw; background: radial-gradient(circle at 85% 15%, #f3c978 0 12%, transparent 13%), linear-gradient(135deg, #e7eee5 0%, #cadbc8 100%); }
+.eyebrow { font: 500 0.75rem 'DM Mono', monospace; letter-spacing: 0.08em; }
+h1 { max-width: 720px; margin: 8vh 0 1rem; font-size: clamp(3.5rem, 9vw, 8rem); line-height: 0.9; letter-spacing: -0.04em; }
+.lede { max-width: 480px; font-size: 1.15rem; line-height: 1.5; }
+.dropzone { display: grid; gap: 0.7rem; max-width: 620px; margin-top: 10vh; padding: 2rem; border: 1px dashed #496052; background: rgba(255,255,255,0.32); }
+.dropzone strong { font-size: 1.3rem; }
+.dropzone span { color: #53655a; }
+button { width: fit-content; margin-top: 1rem; padding: 0.75rem 1.1rem; border: 0; background: #18221d; color: #f6f3e9; font: inherit; cursor: pointer; }
+.status { font: 500 0.8rem 'DM Mono', monospace; }
+.results { max-width: 1050px; margin-top: 5rem; }
+.result-heading, .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
+.result-heading h2 { margin: 0.5rem 0 0; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 0.95; letter-spacing: -0.04em; }
+.result-heading p, .section-heading span { color: #53655a; }
+.secondary-button { margin: 0; background: transparent; color: #18221d; border: 1px solid #496052; }
+.metrics { display: flex; gap: 1rem; margin: 1.5rem 0 2rem; }
+.metrics div { display: grid; gap: 0.25rem; min-width: 120px; padding: 1rem; background: #f6f3e9; }
+.metrics strong { font-size: 2rem; }
+.metrics span, .members span { color: #53655a; }
+.insight-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 1rem; margin: 2rem 0 4rem; }
+.insight-panel, .word-panel { padding: 1.5rem; background: rgba(246, 243, 233, 0.74); }
+.insight-panel { display: grid; align-content: space-between; gap: 1rem; min-height: 180px; }
+.insight-panel strong { font-size: clamp(1.6rem, 3vw, 2.8rem); }
+.insight-panel > span:last-child { color: #53655a; font-size: 0.9rem; }
+.panel-label, .cluster-label { font: 500 0.7rem 'DM Mono', monospace; letter-spacing: 0.08em; }
+.bar-chart { display: flex; align-items: end; gap: 0.45rem; height: 80px; padding-top: 1rem; }
+.bar-chart i { flex: 1; min-height: 6px; background: #ef735d; border-radius: 2px 2px 0 0; }
+.section-heading { margin: 1rem 0; }
+.section-heading h2 { margin: 0; font-size: 1.7rem; }
+.archetypes { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.archetype-card { display: grid; gap: 0.7rem; min-height: 270px; padding: 1.3rem; color: #18221d; background: #f6f3e9; border-top: 5px solid #ef735d; }
+.archetype-card.teal { border-color: #2d827d; }.archetype-card.gold { border-color: #d99b2b; }.archetype-card.pink { border-color: #d56a86; }.archetype-card.blue { border-color: #6388a5; }
+.card-top, .signal { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.archetype-icon { font-size: 2.2rem; }.member-name { margin: 1rem 0 0; color: #53655a; }.archetype-card h3 { margin: 0; font-size: 1.4rem; }.card-description { min-height: 45px; margin: 0; line-height: 1.4; }.signal { padding-top: 0.8rem; border-top: 1px solid #d0d8cb; color: #53655a; font-size: 0.8rem; }.signal strong { color: #18221d; }
+.word-panel { margin-top: 1rem; }.word-cloud { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem 1rem; }.word-cloud span { color: #2d827d; font-weight: 600; }.word-cloud small { margin-left: 0.25rem; color: #53655a; font: 0.65rem 'DM Mono', monospace; }
+.privacy-note { margin: 3rem 0 0; color: #53655a; font: 0.72rem 'DM Mono', monospace; }
+@media (max-width: 680px) { .metrics { flex-wrap: wrap; } .metrics div { flex: 1 1 100px; min-width: 0; } .insight-grid { grid-template-columns: 1fr; } .result-heading, .section-heading { align-items: flex-start; flex-direction: column; gap: 0.4rem; } }
